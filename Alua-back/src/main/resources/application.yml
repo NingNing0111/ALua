@@ -17,7 +17,7 @@ spring:
   mail:
     protocol: smtp
     port: 465
-    host: smtp.163.com
+    host: smtp.gmail.com
     username: example@gmail.com
     password: password
     default-encoding: UTF-8
