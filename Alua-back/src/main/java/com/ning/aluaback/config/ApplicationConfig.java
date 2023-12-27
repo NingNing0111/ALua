@@ -1,7 +1,10 @@
 package com.ning.aluaback.config;
 
 import com.ning.aluaback.repository.UserRepository;
+import com.unfbx.chatgpt.interceptor.OpenAILogger;
 import lombok.RequiredArgsConstructor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @Project: com.ning.aluaback.config
  * @Author: pgthinker
@@ -21,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
+
     private final UserRepository userRepository;
     @Bean
     public UserDetailsService userDetailsService(){
@@ -42,5 +48,16 @@ public class ApplicationConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
         return configuration.getAuthenticationManager();
+    }
+    @Bean
+    public OkHttpClient okHttpClient() {
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new OpenAILogger());
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        return new OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(600,TimeUnit.SECONDS)
+                .readTimeout(600,TimeUnit.SECONDS)
+                .build();
     }
 }

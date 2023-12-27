@@ -41,4 +41,8 @@ public interface JwtService {
      * @return
      */
     boolean isTokenValid(String token, UserDetails userDetails);
+
+    void deleteToken(String username);
+
+
 }

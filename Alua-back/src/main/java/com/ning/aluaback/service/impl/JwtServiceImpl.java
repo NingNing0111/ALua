@@ -1,6 +1,7 @@
 package com.ning.aluaback.service.impl;
 
 import com.ning.aluaback.service.JwtService;
+import com.ning.aluaback.service.RedisService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -16,6 +17,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
@@ -32,9 +34,12 @@ public class JwtServiceImpl implements JwtService {
     private String secretKey;
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
+    private final RedisService redisService;
     @Override
     public String generateToken(UserDetails userDetails) {
-        return buildToken(new HashMap<>(), userDetails, jwtExpiration);
+        String jwt = buildToken(new HashMap<>(), userDetails, jwtExpiration);
+        redisService.setWithExpiration(userDetails.getUsername() + ":token" ,jwt,jwtExpiration, TimeUnit.MILLISECONDS);
+        return jwt;
     }
     private String buildToken(
             Map<String, Object> extraClaims,
@@ -78,8 +83,14 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractEmail(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token) && (redisService.get(userDetails.getUsername()+":"+token) != null);
     }
+
+    @Override
+    public void deleteToken(String username) {
+        redisService.delete(username+":token");
+    }
+
     private boolean isTokenExpired(String token){
         return extractExpiration(token).before(new Date());
     }

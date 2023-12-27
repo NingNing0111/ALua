@@ -3,6 +3,8 @@ package com.ning.aluaback.service.impl;
 import com.ning.aluaback.dto.R;
 import com.ning.aluaback.dto.login.LoginRequest;
 import com.ning.aluaback.dto.login.LoginResponse;
+import com.ning.aluaback.dto.logout.LogoutRequest;
+import com.ning.aluaback.dto.logout.LogoutResponse;
 import com.ning.aluaback.dto.register.RegisterRequest;
 import com.ning.aluaback.dto.register.RegisterResponse;
 import com.ning.aluaback.entity.User;
@@ -67,5 +69,11 @@ public class AccountServiceImpl implements AccountService {
             return LoginResponse.builder().message("用户名或密码错误").status("error").build();
         }
 
+    }
+
+    @Override
+    public R logout(LogoutRequest logoutRequest) {
+            jwtService.deleteToken(logoutRequest.getUsername());
+        return LogoutResponse.builder().message("退出成功").status("success").build();
     }
 }

@@ -1,7 +1,7 @@
 package com.ning.aluaback.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ning.aluaback.entity.ApiKey;
+import com.ning.aluaback.entity.APIKey;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,5 +11,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Description:
  */
 @Mapper
-public interface ApiKeyMapper extends BaseMapper<ApiKey> {
+public interface ApiKeyMapper extends BaseMapper<APIKey> {
 }

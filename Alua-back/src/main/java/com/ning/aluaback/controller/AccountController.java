@@ -2,6 +2,7 @@ package com.ning.aluaback.controller;
 
 import com.ning.aluaback.dto.R;
 import com.ning.aluaback.dto.login.LoginRequest;
+import com.ning.aluaback.dto.logout.LogoutRequest;
 import com.ning.aluaback.dto.register.RegisterRequest;
 import com.ning.aluaback.service.AccountService;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,10 @@ public class AccountController {
     @PostMapping("/login")
     public R login(@RequestBody LoginRequest loginRequest){
         return accountService.login(loginRequest);
+    }
+
+    @PostMapping("/logout")
+    public R logout(@RequestBody LogoutRequest logoutRequest){
+        return accountService.logout(logoutRequest);
     }
 }

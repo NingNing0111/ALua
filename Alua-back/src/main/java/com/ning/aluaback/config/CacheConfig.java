@@ -22,25 +22,6 @@ import java.time.Duration;
 @EnableCaching
 public class CacheConfig {
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        return RedisCacheManager.RedisCacheManagerBuilder
-                .fromConnectionFactory(connectionFactory)
-                .withCacheConfiguration("CACHE",
-                        RedisCacheConfiguration.defaultCacheConfig()
-                                .entryTtl(Duration.ofMinutes(10)) // TTL set to 10 minutes
-                )
-                .build();
-    }
-
-    @Bean
-    public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-        return (builder) -> builder
-                .withCacheConfiguration("customCache",
-                        RedisCacheConfiguration.defaultCacheConfig()
-                                .entryTtl(Duration.ofMinutes(5)) // TTL set to 5 minutes
-                );
-    }
-    @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);

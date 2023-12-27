@@ -1,10 +1,15 @@
 package com.ning.aluaback.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @Project: com.ning.aluaback.entity
@@ -16,9 +21,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@TableName(value = "api_key")
-public class ApiKey {
+@TableName(value = "api")
+public class APIKey implements Serializable {
+    @TableId(value="api_id",type= IdType.AUTO)
     private Integer id;
-    private String key;
+    @TableField("api_value")
+    private String value;
+    @TableField("api_host")
     private String host;
 }

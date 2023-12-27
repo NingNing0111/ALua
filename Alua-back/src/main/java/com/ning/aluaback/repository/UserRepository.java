@@ -1,6 +1,8 @@
 package com.ning.aluaback.repository;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ning.aluaback.entity.User;
+import org.springframework.data.relational.core.sql.In;
 
 /**
  * @Project: com.ning.aluaback.repository
@@ -11,4 +13,7 @@ import com.ning.aluaback.entity.User;
 public interface UserRepository {
     User findByEmail(String email);
     void saveUser(User user);
+    void updateUser(User user);
+    void deleteUser(User user);
+    IPage<User> userPage(Integer page, Integer limit);
 }

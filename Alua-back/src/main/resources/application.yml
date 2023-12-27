@@ -4,11 +4,11 @@ server:
 spring:
   data:
     redis:
-      host: localhost
+      host: xxx.xx.xx.xxx
       port: 6379
 
   datasource:
-    url: jdbc:mysql://localhost/alua
+    url: jdbc:mysql://xxx.xx.xx.xxx:3306/alua
     username: username
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,7 +17,7 @@ spring:
   mail:
     protocol: smtp
     port: 465
-    host: smtp.gmail.com
+    host: smtp.gamil.com
     username: example@gmail.com
     password: password
     default-encoding: UTF-8
@@ -30,6 +30,12 @@ spring:
           starttls:
             enable: true
             required: true
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      cache-null-values: true
 
 application:
   security:
