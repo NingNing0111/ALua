@@ -7,10 +7,7 @@ import com.ning.aluaback.dto.register.RegisterRequest;
 import com.ning.aluaback.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Project: com.ning.aluaback.controller
@@ -34,7 +31,13 @@ public class AccountController {
 
     @PostMapping("/login")
     public R login(@RequestBody LoginRequest loginRequest){
+        log.info("{}",loginRequest);
         return accountService.login(loginRequest);
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "Hello, World!";
     }
 
     @PostMapping("/logout")

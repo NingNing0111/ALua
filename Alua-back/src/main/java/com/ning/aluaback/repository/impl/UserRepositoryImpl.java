@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRepositoryImpl implements UserRepository {
     private final UserMapper userMapper;
 
-    @Cacheable(value = "user", key = "#username")
     @Override
     public User findByEmail(String username) {
         QueryWrapper<User> wp = new QueryWrapper<>();

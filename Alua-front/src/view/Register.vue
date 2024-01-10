@@ -82,7 +82,8 @@ import { ref } from "vue";
 import { RegisterForm, AppConfig, rules } from "./constant";
 import { ElMessage, FormInstance } from "element-plus";
 import request from "../http";
-import { EmailApi } from "../http/constant";
+import { EmailApi, UserApi } from "../http/constant";
+import router from "../router";
 const registerForm = ref<RegisterForm>({
   username: "",
   email: "",
@@ -99,13 +100,13 @@ const sendCode = () => {
   if (!checkInfo()) {
     countdown(60);
     request
-      .get(EmailApi.GenCode, {
-        email: registerForm.value.email,
+      .post(EmailApi.GenCode, {
+        targetEmail: registerForm.value.email,
       })
       .then((res) => {
         ElMessage({
           message: res.data.message,
-          type: res.data.state,
+          type: res.data.status,
         });
       })
       .catch((err) => {
@@ -138,7 +139,22 @@ const countdown = (count: number) => {
   }
 };
 
-const register = () => {};
+const register = () => {
+  if (!checkInfo()) {
+    request
+      .post(UserApi.Register, registerForm)
+      .then((res) => {
+        ElMessage({
+          message: res.data.message,
+          type: res.data.status,
+        });
+        router.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+};
 
 const checkInfo = () => {
   return (

@@ -31,7 +31,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 @Component
 @Slf4j
-@ServerEndpoint("/websocket/{id}")
+@ServerEndpoint("/api/v1/socket/{id}")
 @RequiredArgsConstructor
 public class ChatWebsocket {
     private static ChatService chatService;

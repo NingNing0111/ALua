@@ -18,7 +18,7 @@ import Chat from "../components/Chat.vue";
 import HeaderTabBar from "../components/HeaderTabBar.vue";
 import TextArea from "../components/TextArea.vue";
 import { ChatMessage } from "../components/constant";
-import { Websocket, LocalDataGet } from "../utils";
+import { WebSocketChat } from "../utils";
 import UserInfo from "./UserInfo.vue";
 import { ref } from "vue";
 const currTab = ref("ChatHome");
@@ -37,7 +37,7 @@ const delAns = (e: any) => {
 const ask = (e: any) => {
   console.log(e);
 
-  Websocket(e, chatList, LocalDataGet("token"));
+  WebSocketChat(e, chatList);
 };
 const resetAll = (b: boolean) => {
   if (b) {

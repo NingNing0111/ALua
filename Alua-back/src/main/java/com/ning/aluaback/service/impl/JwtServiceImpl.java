@@ -83,7 +83,13 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractEmail(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token) && (redisService.get(userDetails.getUsername()+":"+token) != null);
+        if(!isTokenExpired(token)){
+            log.info("Token未过期");
+        }
+        if(redisService.get(userDetails.getUsername()+":token") != null) {
+            log.info("Token信息存在Redis中:{}",redisService.get(userDetails.getUsername() + ":token"));
+        }
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token) && (redisService.get(userDetails.getUsername()+":token") != null);
     }
 
     @Override

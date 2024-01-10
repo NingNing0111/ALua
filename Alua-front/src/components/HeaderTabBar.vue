@@ -20,7 +20,7 @@
         >
           <img :src="userSvg" alt="" />
           <div class="header-user-name">
-            {{ currUser?.uName }}
+            {{ currUser }}
           </div>
         </div>
         <div style="margin-left: 10px" v-else>
@@ -40,27 +40,14 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import {
-  User,
-  Tip,
-  VisitGitHub,
-  githubSvg,
-  logoSvg,
-  userSvg,
-} from "./constant";
+import { Tip, VisitGitHub, githubSvg, logoSvg, userSvg } from "./constant";
 import router from "../router";
 import { ElMessage } from "element-plus";
 import { LocalDataGet, CheckUserInfo, DeleteUserInfo } from "../utils";
 const emit = defineEmits(["select-page", "reset-all"]);
 
 const isLogin = ref(false);
-const currUser = ref<User>({
-  uId: -1,
-  uName: "未知",
-  uBalance: 0,
-  uRole: "",
-  uEmail: "",
-});
+const currUser = ref("");
 
 onMounted(() => {
   checkInfo();
@@ -68,27 +55,24 @@ onMounted(() => {
 
 const checkInfo = () => {
   if (CheckUserInfo()) {
-    const user: any = LocalDataGet("currUser");
+    const user = LocalDataGet("currUser");
     if (user !== null) {
-      currUser.value.uBalance = user.ubalance;
-      currUser.value.uId = user.uid;
-      currUser.value.uName = user.uname;
-      currUser.value.uRole = user.upermission;
-      currUser.value.uEmail = user.uemail;
       isLogin.value = true;
+      currUser.value = user;
     }
   }
 };
 
 const logout = () => {
   DeleteUserInfo();
-  setTimeout(() => {
-    router.push("/");
-  }, 1000);
+
   ElMessage({
     message: Tip.LogoutMessage,
     type: "success",
   });
+  setTimeout(() => {
+    router.push("/login");
+  }, 1000);
 };
 
 const toLogin = () => {

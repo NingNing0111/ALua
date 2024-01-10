@@ -11,13 +11,11 @@
         >
       </template>
       <el-descriptions-item label="用户名">
-        <div class="info-item">
-          {{ currUser?.uName }}
-        </div>
+        {{ currUser?.uName }}
       </el-descriptions-item>
 
       <el-descriptions-item label="邮箱">{{
-        currUser?.uName
+        currUser?.uEmail
       }}</el-descriptions-item>
       <el-descriptions-item label="积分余额"
         >{{ currUser?.uBalance
@@ -51,7 +49,7 @@ const currUser = ref<User>({
 const emit = defineEmits(["recharge"]);
 onMounted(() => {
   if (!CheckUserInfo()) {
-    currUser.value = LocalDataGet("currUser");
+    currUser.value.uEmail = LocalDataGet("currUser");
   }
 });
 

@@ -62,22 +62,21 @@ const onLogin = () => {
   request
     .post(UserApi.Login, loginForm.value)
     .then((res) => {
-      if (res.data.state === "error") {
+      if (res.data.status === "error") {
         ElMessage({
           message: res.data.message,
-          type: res.data.state,
+          type: res.data.status,
         });
-      } else if (res.data.state === "success") {
+      } else if (res.data.status === "success") {
         const token = res.data.token;
-        const user = res.data.user;
         LocalDataSave("token", token);
-        LocalDataSave("currUser", user);
+        LocalDataSave("currUser", loginForm.value.email);
         setTimeout(() => {
           router.push("/");
         }, 1000);
         ElMessage({
           message: res.data.message,
-          type: res.data.state,
+          type: res.data.status,
         });
         console.log(res);
       }

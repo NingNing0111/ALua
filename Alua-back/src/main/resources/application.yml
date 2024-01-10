@@ -9,17 +9,17 @@ spring:
 
   datasource:
     url: jdbc:mysql://xxx.xx.xx.xxx:3306/alua
-    username: username
-    password: password
+    username: xxxxxx
+    password: xxxxxx
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
   mail:
     protocol: smtp
     port: 465
-    host: smtp.gamil.com
-    username: example@gmail.com
-    password: password
+    host: smtp.163.com
+    username: example@163.com
+    password: Bxxxxxxxx
     default-encoding: UTF-8
     properties:
       mail:

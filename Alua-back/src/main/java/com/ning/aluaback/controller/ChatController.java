@@ -22,6 +22,7 @@ public class ChatController {
 
     @GetMapping("/create")
     public R createChatId(String username){
+        log.info("create:{}",username);
         ChatRequest chatRequest = new ChatRequest();
         chatRequest.setUsername(username);
         return chatService.create(chatRequest);

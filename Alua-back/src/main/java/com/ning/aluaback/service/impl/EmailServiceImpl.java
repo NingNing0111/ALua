@@ -60,4 +60,6 @@ public class EmailServiceImpl implements EmailService {
     public R sendVoucherCode(String targetEmail, String voucherCode) {
         return null;
     }
+
+
 }

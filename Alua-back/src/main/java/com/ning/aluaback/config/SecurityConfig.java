@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 /**
  * @Project: com.ning.aluaback.config
  * @Author: pgthinker
@@ -26,10 +27,12 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final static String[] WHITE_LIST_URLS = {
             "/api/v1/email/**",
-            "/api/v1/account/**"
+            "/api/v1/account/**",
+            "/api/v1/socket/**"
     };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(authorization -> {
             authorization.requestMatchers(WHITE_LIST_URLS).permitAll()
@@ -37,11 +40,9 @@ public class SecurityConfig {
                     .anyRequest().authenticated();
         });
         httpSecurity
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        httpSecurity
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
+
 }
